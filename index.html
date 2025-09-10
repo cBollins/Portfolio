@@ -19,6 +19,7 @@
   <script>
     // Tailwind config: extend with a primary color you can tweak once.
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -163,7 +164,7 @@
       data-tags="Trees,Large Data">
         <div class="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-800 grid place-content-center text-zinc-400">
             <img src="assets/adc_example.png" alt="Neutrino Event"
-            class="filter blur-sm brightness-50 transition duration-300 hover:blur-0 hover:brightness-100">
+            class="filter blur-sm brightness-100 dark:brightness-50 transition duration-300 hover:blur-0 hover:brightness-100 dark:hover:brightness-100">
         </div>
         <div class="p-4">
           <h3 class="font-semibold">DUNE: Neutrino Classification</h3>
@@ -191,7 +192,7 @@
       data-tags="Time Series,CNN,Trees,Data Querying">
         <div class="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-800 grid place-content-center text-zinc-400">
             <img src="assets/Preprocessed_Examples.png" alt="Light Curves" 
-            class="filter blur-sm brightness-50 transition duration-300 hover:blur-0 hover:brightness-100">
+            class="filter blur-sm brightness-100 dark:brightness-50 transition duration-300 hover:blur-0 hover:brightness-100 dark:hover:brightness-100">
         </div>
         <div class="p-4">
           <h3 class="font-semibold">NASA Exoplanet Archive</h3>
@@ -244,7 +245,7 @@
       <article class="project rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden" data-tags="">
         <div class="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-800 grid place-content-center text-zinc-400">
             <img src="assets/sand.png" alt="Sand Sim" 
-            class="filter blur-sm brightness-50 transition duration-300 hover:blur-0 hover:brightness-100">
+            class="filter blur-sm brightness-100 dark:brightness-50 transition duration-300 hover:blur-0 hover:brightness-100 dark:hover:brightness-100">
         </div>
         <div class="p-4">
           <h3 class="font-semibold">Falling Sand Simulator</h3>
@@ -322,7 +323,7 @@
         <label class="block text-sm mt-3">Email<input required type="email" name="email" class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2" placeholder="jonbovi@live.co.uk"></label>
         <label class="block text-sm mt-3">Message<textarea required name="message" rows="4" class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2" placeholder="Hey, Ben! I'd love to contact you about..."></textarea></label>
         <div class="mt-4 flex items-center justify-between">
-          <label class="text-xs text-zinc-500"><input type="checkbox" required class="align-middle mr-1">You can contact me back</label>
+          <label class="text-xs text-zinc-500"><input type="checkbox" required class="align-middle mr-1">Prove you're not a robot</label>
           <button class="rounded-xl bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 text-sm">Send</button>
         </div>
       </form>
@@ -345,11 +346,18 @@
     const root = document.documentElement;
     const userPref = localStorage.getItem('theme');
 
-    // default is DARK...
+    // Detect system preference if no stored value
     if (userPref === 'light') {
       root.classList.remove('dark');
-    } else {
+    } else if (userPref === 'dark') {
       root.classList.add('dark');
+    } else {
+      // No preference stored, use system
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
     }
 
     themeToggle.addEventListener('click', () => {
